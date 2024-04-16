@@ -9,15 +9,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrpcDemo.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20240416162327_InitialMigration")]
+    [DbContext(typeof(DataContext))]
+    [Migration("20240416173553_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
             modelBuilder.Entity("GrpcDemo.Models.ToDoItem", b =>
                 {
