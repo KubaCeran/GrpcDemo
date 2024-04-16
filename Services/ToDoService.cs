@@ -43,12 +43,13 @@ namespace GrpcDemo.Services
             });
         }
 
-        public override async Task GetAllToDoItems(GetAllToDoRequest request, IServerStreamWriter<GetToDoResponse> responseStream, ServerCallContext context)
+        public override async Task<GetAllToDoResponse> GetAllToDoItems(GetAllToDoRequest request, ServerCallContext context)
         {
             var items = await dbContext.ToDoItems.ToListAsync();
+            var response = new GetAllToDoResponse();
             foreach(var item in items)
             {
-                await responseStream.WriteAsync(new GetToDoResponse
+                response.Items.Add(new GetToDoResponse
                 {
                     Id = item.Id,
                     Description = item.Description,
@@ -56,6 +57,8 @@ namespace GrpcDemo.Services
                     Title = item.Title
                 });
             }
+
+            return await Task.FromResult(response);
         }
 
         public override async Task<UpdateToDoResponse> UpdateToDoItem(UpdateToDoRequest request, ServerCallContext context)

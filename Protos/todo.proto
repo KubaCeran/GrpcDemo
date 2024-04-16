@@ -2,12 +2,41 @@ syntax = "proto3";
 
 option csharp_namespace = "GrpcDemo";
 
+import "google/api/annotations.proto";
+
 service ToDoIt {
-	rpc CreateToDoItem(CreateToDoRequest) returns (CreateToDoResponse);
-	rpc GetToDoItemById(GetToDoRequest) returns (GetToDoResponse);
-	rpc GetAllToDoItems(GetAllToDoRequest) returns (stream GetToDoResponse);
-	rpc UpdateToDoItem(UpdateToDoRequest) returns (UpdateToDoResponse);
-	rpc DeleteToDoItem(DeleteToDoRequest) returns (DeleteToDoResponse);
+	//body: "*" pass everything from the body to the request
+	rpc CreateToDoItem(CreateToDoRequest) returns (CreateToDoResponse){
+		option (google.api.http) = {
+			post: "/v1/todo",
+			body: "*"
+		};
+	};
+
+	rpc GetToDoItemById(GetToDoRequest) returns (GetToDoResponse){
+		option (google.api.http) = {
+			get: "/v1/todo/{id}"
+		};
+	};
+
+	rpc GetAllToDoItems(GetAllToDoRequest) returns (GetAllToDoResponse){
+		option (google.api.http) = {
+			get: "/v1/todo"
+		};
+	};
+
+	rpc UpdateToDoItem(UpdateToDoRequest) returns (UpdateToDoResponse){
+		option (google.api.http) = {
+			put: "/v1/todo",
+			body: "*"
+		};
+	};
+
+	rpc DeleteToDoItem(DeleteToDoRequest) returns (DeleteToDoResponse){
+		option (google.api.http) = {
+			delete: "/v1/todo/{id}"
+		};
+	};
 }
 
 message CreateToDoRequest {
@@ -34,6 +63,10 @@ message GetToDoResponse {
 }
 
 message GetAllToDoRequest {
+}
+
+message GetAllToDoResponse {
+	repeated GetToDoResponse items = 1;
 }
 
 message UpdateToDoRequest {
